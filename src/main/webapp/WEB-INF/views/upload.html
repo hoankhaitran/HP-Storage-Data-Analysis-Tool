@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+
+<title>Report</title>
+<!-- Bootstrap core CSS -->
+<link th:href="@{/resources/libs/css/bootstrap.css}" rel="stylesheet"></link>
+
+<!-- Custom CSS for the 'Heroic Features' Template -->
+<link th:href="@{/resources/libs/css/heroic-features.css}"
+	rel="stylesheet"></link>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"></link>
+
+<script th:src="@{/resources/libs/js/myscript.js}"></script>
+
+</head>
+
+<body>
+
+	<div th:include="navBar::#navBar"></div>
+
+	<div class="container">
+		<div id="MessageDiv" th:include="message::#body"></div>
+		<div id="fileUploadDiv">
+			<form action="home.html" th:action="@{/upload}" method="post"
+				enctype="multipart/form-data">
+				<input type="file" name="myFile" /> <input type="submit"
+					value="Upload" />
+			</form>
+
+		</div>
+		<footer>
+			<div id="footer" th:include="footer::#copy"></div>
+
+		</footer>
+
+	</div>
+	<!-- /.container -->
+
+
+
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+

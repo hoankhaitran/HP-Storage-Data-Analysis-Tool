@@ -1,0 +1,18 @@
+	<div id="body">
+
+	<h4>Status:</h4>
+		<p id="message"></p><br></br>
+		<p id="message1"></p>
+		<script th:inline="javascript">
+	$(document).ready(function(){
+		var msg= /*[[${message}]]*/ ;
+		var msg1= /*[[${message1}]]*/ ;
+		$("#message").html(msg);
+		$("#message1").html(msg1);
+		
+		
+	});
+	</script>
+		
+	</div>
+		

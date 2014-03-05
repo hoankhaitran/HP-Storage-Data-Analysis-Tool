@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="HP DSAT analysis tool." />
+        <meta name="author" content="Pocket Protectors" />
+        <link rel="shortcut icon" href="img/favicon.png" />
+
+        <title>Reports</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="../lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+        <link href="../lib/bootstrap/plugins/bootstrap-multiselect.css" rel="stylesheet" />
+
+        <!-- main DSAT stylesheet -->
+        <link rel="stylesheet" href="../lib/css/style.css">
+
+        <!-- Custom styles for this template -->
+        <link href="../lib/css/reports.css" rel="stylesheet" />
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+            <!-- Wrap all page content here -->
+            <div id="wrap">
+
+                <!-- Fixed navbar -->
+                <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#">HP Data Storage Analysis Tool</a>
+                        </div>
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="../upload/">Upload</a></li>
+                                <li class="active"><a href="../reports/">Reports</a></li>
+                                <li><a href="../users/">Users</a></li>
+                                <!--<li class="dropdown">-->
+                                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
+                                    <!--<ul class="dropdown-menu">-->
+                                        <!--<li><a href="#">Action</a></li>-->
+                                        <!--<li><a href="#">Another action</a></li>-->
+                                        <!--<li><a href="#">Something else here</a></li>-->
+                                        <!--<li class="divider"></li>-->
+                                        <!--<li class="dropdown-header">Nav header</li>-->
+                                        <!--<li><a href="#">Separated link</a></li>-->
+                                        <!--<li><a href="#">One more separated link</a></li>-->
+                                    <!--</ul>-->
+                                <!--</li>-->
+                            </ul>
+                        </div><!--/.nav-collapse -->
+                    </div>
+                </div> <!-- #container -->
+
+                <!-- Begin page content -->
+                <div class="container">
+                    <div class="page-header">
+                        <h1>Reports</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                                Number of Storage Arrays per Customer per Month
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h3>
+                                                        Analysis Configuration
+                                                    </h3>
+                                                    <p>Constraints, type of graph, etc, goes here.</p>
+                                                    <form role="form">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Analysis Type</label>
+                                                            <br />
+                                                            <div class="btn-group dsat-analyses-type-select">
+                                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                                    <span class="dsat-analysis-type-text">Bar Graph</span> <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu" role="menu">
+                                                                    <li><a href="">Pie Chart</a></li>
+                                                                    <li><a href="">Line Graph</a></li>
+                                                                    <li><a href="">Bar Graph</a></li>
+                                                                    <li><a href="">Scatter Plot</a></li>
+                                                                    <li><a href="">Table View</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Range</label>
+                                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="X-X">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Select Columns</label>
+                                                            <br />
+                                                            <div class="btn-group dsat-select-column">
+                                                                <span>x-axis</span>
+                                                                <br />
+                                                                  <button title="None selected" style="width: auto;" type="button" class="multiselect dropdown-toggle btn btn-default" data-toggle="dropdown">
+                                                                    None selected 
+                                                                    <b class="caret">
+                                                                    </b>
+                                                                  </button>
+                                                                  <ul style="max-height: 150px; overflow-y: auto; overflow-x: hidden;" class="multiselect-container dropdown-menu">
+                                                                    <div class="input-group">
+                                                                      <span class="input-group-addon">
+                                                                        <i class="glyphicon glyphicon-search">
+                                                                        </i>
+                                                                      </span>
+                                                                      <input placeholder="Search" class="form-control multiselect-search" type="text">
+                                                                    </div>
+                                                                    <li class="">
+                                                                      <a class="multiselect-all" href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="multiselect-all" type="checkbox">
+                                                                          Select all
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="1" type="checkbox">
+                                                                          1
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="2" type="checkbox">
+                                                                          2
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="3" type="checkbox">
+                                                                          3
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="4" type="checkbox">
+                                                                          4
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="5" type="checkbox">
+                                                                          5
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="6" type="checkbox">
+                                                                          6
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="7" type="checkbox">
+                                                                          7
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="8" type="checkbox">
+                                                                          8
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="9" type="checkbox">
+                                                                          9
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="10" type="checkbox">
+                                                                          10
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="11" type="checkbox">
+                                                                          11
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                  </ul>
+                                                                  <br />
+                                                                  <span>x-axis</span>
+                                                                  <br />
+                                                                  <button title="None selected" style="width: auto;" type="button" class="multiselect dropdown-toggle btn btn-default" data-toggle="dropdown">
+                                                                    None selected 
+                                                                    <b class="caret">
+                                                                    </b>
+                                                                  </button>
+                                                                  <ul style="max-height: 150px; overflow-y: auto; overflow-x: hidden;" class="multiselect-container dropdown-menu">
+                                                                    <div class="input-group">
+                                                                      <span class="input-group-addon">
+                                                                        <i class="glyphicon glyphicon-search">
+                                                                        </i>
+                                                                      </span>
+                                                                      <input placeholder="Search" class="form-control multiselect-search" type="text">
+                                                                    </div>
+                                                                    <li class="">
+                                                                      <a class="multiselect-all" href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="multiselect-all" type="checkbox">
+                                                                          Select all
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="1" type="checkbox">
+                                                                          1
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="2" type="checkbox">
+                                                                          2
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="3" type="checkbox">
+                                                                          3
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="4" type="checkbox">
+                                                                          4
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="5" type="checkbox">
+                                                                          5
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="6" type="checkbox">
+                                                                          6
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="7" type="checkbox">
+                                                                          7
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="8" type="checkbox">
+                                                                          8
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="9" type="checkbox">
+                                                                          9
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="10" type="checkbox">
+                                                                          10
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="11" type="checkbox">
+                                                                          11
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                  </ul>
+                                                              </div>
+                                                          </div>
+                                                    </form>
+                                            </div>
+                                                <div class="col-sm-9">
+                                                    <img src="Number_of_humans_launched_into_space_bar_chart.png" alt="" class="img-responsive" />
+                                                    <button class="btn btn-danger pull-right">Remove</button>
+                                                    <button class="btn btn-default pull-right">Export Image</button>
+                                                    <button class="btn btn-default pull-right">Rename</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                                Number of Servers vs Performance
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h3>
+                                                        Analysis Configuration
+                                                    </h3>
+                                                    <p>Constraints, type of graph, etc, goes here.</p>
+                                                    <form role="form">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Analysis Type</label>
+                                                            <br />
+                                                            <div class="btn-group dsat-analyses-type-select">
+                                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                                    <span class="dsat-analysis-type-text">Bar Graph</span> <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu" role="menu">
+                                                                    <li><a href="">Pie Chart</a></li>
+                                                                    <li><a href="">Line Graph</a></li>
+                                                                    <li><a href="">Bar Graph</a></li>
+                                                                    <li><a href="">Scatter Plot</a></li>
+                                                                    <li><a href="">Table View</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Range</label>
+                                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="X-X">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Select Columns</label>
+                                                            <br />
+                                                            <div class="btn-group dsat-select-column">
+                                                                <span>x-axis</span>
+                                                                <br />
+                                                                  <button title="None selected" style="width: auto;" type="button" class="multiselect dropdown-toggle btn btn-default" data-toggle="dropdown">
+                                                                    None selected 
+                                                                    <b class="caret">
+                                                                    </b>
+                                                                  </button>
+                                                                  <ul style="max-height: 150px; overflow-y: auto; overflow-x: hidden;" class="multiselect-container dropdown-menu">
+                                                                    <div class="input-group">
+                                                                      <span class="input-group-addon">
+                                                                        <i class="glyphicon glyphicon-search">
+                                                                        </i>
+                                                                      </span>
+                                                                      <input placeholder="Search" class="form-control multiselect-search" type="text">
+                                                                    </div>
+                                                                    <li class="">
+                                                                      <a class="multiselect-all" href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="multiselect-all" type="checkbox">
+                                                                          Select all
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="1" type="checkbox">
+                                                                          1
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="2" type="checkbox">
+                                                                          2
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="3" type="checkbox">
+                                                                          3
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="4" type="checkbox">
+                                                                          4
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="5" type="checkbox">
+                                                                          5
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="6" type="checkbox">
+                                                                          6
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="7" type="checkbox">
+                                                                          7
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="8" type="checkbox">
+                                                                          8
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="9" type="checkbox">
+                                                                          9
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="10" type="checkbox">
+                                                                          10
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="11" type="checkbox">
+                                                                          11
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                  </ul>
+                                                                  <br />
+                                                                  <span>x-axis</span>
+                                                                  <br />
+                                                                  <button title="None selected" style="width: auto;" type="button" class="multiselect dropdown-toggle btn btn-default" data-toggle="dropdown">
+                                                                    None selected 
+                                                                    <b class="caret">
+                                                                    </b>
+                                                                  </button>
+                                                                  <ul style="max-height: 150px; overflow-y: auto; overflow-x: hidden;" class="multiselect-container dropdown-menu">
+                                                                    <div class="input-group">
+                                                                      <span class="input-group-addon">
+                                                                        <i class="glyphicon glyphicon-search">
+                                                                        </i>
+                                                                      </span>
+                                                                      <input placeholder="Search" class="form-control multiselect-search" type="text">
+                                                                    </div>
+                                                                    <li class="">
+                                                                      <a class="multiselect-all" href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="multiselect-all" type="checkbox">
+                                                                          Select all
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="1" type="checkbox">
+                                                                          1
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="2" type="checkbox">
+                                                                          2
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="3" type="checkbox">
+                                                                          3
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="4" type="checkbox">
+                                                                          4
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="5" type="checkbox">
+                                                                          5
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="6" type="checkbox">
+                                                                          6
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="7" type="checkbox">
+                                                                          7
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="8" type="checkbox">
+                                                                          8
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="9" type="checkbox">
+                                                                          9
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="10" type="checkbox">
+                                                                          10
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="11" type="checkbox">
+                                                                          11
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                  </ul>
+                                                              </div>
+                                                          </div>
+                                                    </form>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <img src="Number_of_humans_launched_into_space_bar_chart.png" alt="" class="img-responsive" />
+                                                    <button class="btn btn-danger pull-right">Remove</button>
+                                                    <button class="btn btn-default pull-right">Export Image</button>
+                                                    <button class="btn btn-default pull-right">Rename</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                                New Customers per Month
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h3>
+                                                        Analysis Configuration
+                                                    </h3>
+                                                    <p>Constraints, type of graph, etc, goes here.</p>
+                                                    <form role="form">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Analysis Type</label>
+                                                            <br />
+                                                            <div class="btn-group dsat-analyses-type-select">
+                                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                                    <span class="dsat-analysis-type-text">Bar Graph</span> <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu" role="menu">
+                                                                    <li><a href="">Pie Chart</a></li>
+                                                                    <li><a href="">Line Graph</a></li>
+                                                                    <li><a href="">Bar Graph</a></li>
+                                                                    <li><a href="">Scatter Plot</a></li>
+                                                                    <li><a href="">Table View</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Range</label>
+                                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="X-X">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Select Columns</label>
+                                                            <br />
+                                                            <div class="btn-group dsat-select-column">
+                                                                <span>x-axis</span>
+                                                                <br />
+                                                                  <button title="None selected" style="width: auto;" type="button" class="multiselect dropdown-toggle btn btn-default" data-toggle="dropdown">
+                                                                    None selected 
+                                                                    <b class="caret">
+                                                                    </b>
+                                                                  </button>
+                                                                  <ul style="max-height: 150px; overflow-y: auto; overflow-x: hidden;" class="multiselect-container dropdown-menu">
+                                                                    <div class="input-group">
+                                                                      <span class="input-group-addon">
+                                                                        <i class="glyphicon glyphicon-search">
+                                                                        </i>
+                                                                      </span>
+                                                                      <input placeholder="Search" class="form-control multiselect-search" type="text">
+                                                                    </div>
+                                                                    <li class="">
+                                                                      <a class="multiselect-all" href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="multiselect-all" type="checkbox">
+                                                                          Select all
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="1" type="checkbox">
+                                                                          1
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="2" type="checkbox">
+                                                                          2
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="3" type="checkbox">
+                                                                          3
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="4" type="checkbox">
+                                                                          4
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="5" type="checkbox">
+                                                                          5
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="6" type="checkbox">
+                                                                          6
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="7" type="checkbox">
+                                                                          7
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="8" type="checkbox">
+                                                                          8
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="9" type="checkbox">
+                                                                          9
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="10" type="checkbox">
+                                                                          10
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="11" type="checkbox">
+                                                                          11
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                  </ul>
+                                                                  <br />
+                                                                  <span>x-axis</span>
+                                                                  <br />
+                                                                  <button title="None selected" style="width: auto;" type="button" class="multiselect dropdown-toggle btn btn-default" data-toggle="dropdown">
+                                                                    None selected 
+                                                                    <b class="caret">
+                                                                    </b>
+                                                                  </button>
+                                                                  <ul style="max-height: 150px; overflow-y: auto; overflow-x: hidden;" class="multiselect-container dropdown-menu">
+                                                                    <div class="input-group">
+                                                                      <span class="input-group-addon">
+                                                                        <i class="glyphicon glyphicon-search">
+                                                                        </i>
+                                                                      </span>
+                                                                      <input placeholder="Search" class="form-control multiselect-search" type="text">
+                                                                    </div>
+                                                                    <li class="">
+                                                                      <a class="multiselect-all" href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="multiselect-all" type="checkbox">
+                                                                          Select all
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="1" type="checkbox">
+                                                                          1
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="2" type="checkbox">
+                                                                          2
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="3" type="checkbox">
+                                                                          3
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="4" type="checkbox">
+                                                                          4
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="5" type="checkbox">
+                                                                          5
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="6" type="checkbox">
+                                                                          6
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="7" type="checkbox">
+                                                                          7
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="8" type="checkbox">
+                                                                          8
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li style="display: list-item;" class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="9" type="checkbox">
+                                                                          9
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="10" type="checkbox">
+                                                                          10
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="">
+                                                                      <a href="javascript:void(0);">
+                                                                        <label class="checkbox">
+                                                                          <input value="11" type="checkbox">
+                                                                          11
+                                                                        </label>
+                                                                      </a>
+                                                                    </li>
+                                                                  </ul>
+                                                              </div>
+                                                          </div>
+                                                    </form>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <img src="Number_of_humans_launched_into_space_bar_chart.png" alt="" class="img-responsive" />
+                                                    <button class="btn btn-danger pull-right">Remove</button>
+                                                    <button class="btn btn-default pull-right">Export Image</button>
+                                                    <button class="btn btn-default pull-right">Rename</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- #accordion-->
+                            <br />
+                            <button class="btn btn-primary pull-right">Export Report Configuration</button>
+                            <button class="btn btn-default pull-right">Import Report Configuration</button>
+                            <button class="btn btn-default pull-right">Render Report as Basic HTML</button>
+                            <button class="btn btn-default pull-right">Add New Analysis</button>
+                        </div> <!--.col-sm-12-->
+                    </div> <!--.row-->
+                </div> <!--.container-->
+            </div> <!-- #wrap -->
+
+            <div id="footer">
+                <div class="container">
+                    <p class="text-muted credit">HP Data Storage Analysis Tool</p>
+                </div>
+            </div>
+
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="../lib/js/jquery-1.10.2.min.js"></script>
+        <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../lib/bootstrap/plugins/bootstrap-multiselect.js"></script>
+        <script src="../lib/js/main.js"></script>
+    </body>
+</html>

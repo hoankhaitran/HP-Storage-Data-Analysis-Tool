@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+
+<title>Upload Confirmation</title>
+<!-- Bootstrap core CSS -->
+<link th:href="@{/resources/libs/css/bootstrap.css}" rel="stylesheet"></link>
+
+<!-- Custom CSS for the 'Heroic Features' Template -->
+<link th:href="@{/resources/libs/css/heroic-features.css}"
+	rel="stylesheet"></link>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+</head>
+
+<body>
+	<div th:include="navBar::#navBar"></div>
+
+	<div class="container">
+	<div id="MessageDiv" th:include="message::#body"></div>
+		<div id="fileUploadSuccessDiv">
+			
+			<button id="importBut" class="btn btn-success" type="button">Import to DB</button>
+			<script th:inline="javascript">
+$('#importBut').click(function() {
+	var base= $('#message1').text();
+	alert(base);
+   window.location =base+"/importCsv";
+});
+</script>
+		</div>
+
+
+		
+	
+
+	<footer>
+		<div id="footer" th:include="footer::#copy"></div>
+		
+	</footer>
+
+
+
+	</div>
+	<!-- /.container -->
+
+	<!-- JavaScript -->
+	<script th:src="@{/resources/libs/js/jquery-1.10.2.js}"></script>
+	<script th:src="@{/resources/libs/js/bootstrap.js}"></script>
+
+</body>
+
+</html>

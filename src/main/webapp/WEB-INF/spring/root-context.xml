@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="location" value="classpath:/csc191.properties"/>
+</bean>
+<bean id="masterReport" class="edu.csus.csc191.models.Reports.MasterReport" autowire="byName"></bean>
+<bean id="masterCsv" class="edu.csus.csc191.models.Mastercsv" autowire="byName"></bean>
+
+<bean id="newCustomerReport" class="edu.csus.csc191.models.Reports.NewCustomerReport" autowire="byName"></bean>
+<bean id="DynamicCsv" class="edu.csus.csc191.models.DynamicCsv" autowire="byName"></bean>
+
+
+
+</beans>

@@ -1,0 +1,150 @@
+
+<div id="CustomerEnvReport">
+	<div>
+
+		<select id="selectColumnDropbox" class="form-control "></select>
+		<button id="AddColBut" class="btn btn-success" type="button">Add
+			selected</button>
+		<button id="clearBut" class="btn btn-success" type="button">Reset</button>
+		<button id="displayBut" class="btn btn-success" type="button"
+			disabled="disabled">Display Report</button>
+		<span><input class="form-control" id="columns" name="columns"
+			type="text" value='' disabled="disabled"> </input> <input type="text"
+			id="datepicker" value="201307"> </input></span>
+
+	</div>
+	<div id="CESTableDiv">
+		<h3 id="reportName"></h3>
+		<table id="CESTable"
+			style="width: 100%; border: 1px solid #8B1C62; padding: 4px;"
+			class="table table-striped table-bordered table-condensed">
+
+
+		</table>
+
+	</div>
+
+	<script th:inline="javascript">
+	$(document).ready(function() {
+		$.get( "getMappedColumns", function( data ) {
+			var html = '';
+			for ( var i in data[1]) {
+				var csv = data[1];
+				html += '<option value="'
+						+ csv[i]
+						+ '">'
+						+ csv[i]
+						+ '</option>';
+			}
+			$('#selectColumnDropbox').html(html);
+			
+		});
+    
+ 	});
+ 	
+	$(document).ready(function()
+			{
+		var link= /*[[@{resources/xml/reportconfig.xml}]]*/ ;
+			  $.ajax({
+			    type: "GET",
+			    url: link,
+			    dataType: "xml",
+			    success: parseXml
+			  });
+			});
+	function parseXml(xml)
+	{
+	  
+	 $val= $(xml).find("columns");
+	 $('#columns').val($val.text());
+	 $("#displayBut").prop("disabled",false);
+	 var textToSelect = "xpcount";
+
+     $("#selectColumnDropbox option").each(function (a, b) {
+           if ($(this).html() == textToSelect ) $(this).attr("selected", "selected");
+       });
+	 
+	
+
+	}
+	
+		$("#displayBut").click(function() {
+			var str = $("#columns").val();
+			var date = $("#datepicker").val();
+			var arr = str.split(",");
+			$('#CESTable').html("");
+	    	$("#CESTable").append("<tr>	<th>Name</th><th>Total</th><th>Average</th><th>Max</th></tr>");
+				
+			//$('#CESTable tr:gt(0)').remove()
+			$.each(arr, function( index, value ) {
+			    $.get( "reportCustomerEnvironmentSize/"+value+"/cColumn/"+date, function( data ) {
+					  $("#CESTable").last().append("<tr><td>"+data.envName+"</td><td>"+data.total+"</td><td>"+data.average+"</td><td>"+data.max+"</td></tr>");
+					  $("#reportName").html(data.reportName);
+				},"json").fail(function() {
+				    alert( "Column does not have metric value! Please choose a different column" );
+				    arr.pop();
+				    $('#columns').val(arr.join(","));
+				  });
+			
+			});
+			$("#displayBut").prop("disabled",true);
+			$("#addCER").prop("disabled",false);
+
+			
+		});
+    
+
+
+	$(document).ready(function() {
+		$("#AddColBut").click(function() {
+			
+			$("#displayBut").prop("disabled",false);
+			if($('#columns').val()=='')
+				$('#columns').val($('#message').html());
+			else	
+			$('#columns').val($('#columns').val() +","+ $('#message').html());
+		});
+    
+ 	 }); 
+	$(document).ready(function() {
+		$("#clearBut").click(function() {
+			
+			//$("#columns").append($("#selectColumnDropbox :selected").text()+" wer");
+			$('#columns').val("");
+			$("#displayBut").prop("disabled",true);
+		});
+    
+ 	 });
+
+
+
+	$('#selectColumnDropbox').change(function() {
+		var index = $('#selectColumnDropbox').prop('selectedIndex');
+		
+		$.get( "getMappedColumns", function( data ) {
+			//$('#Cols').html(data[0][index]);
+			$("#message").html(data[0][index]);
+			
+		});
+	});	 	
+ 	
+	</script>
+
+</div>
+
+<div id="NewCustomersReport">
+	<p>NewCustomersReport</p>
+</div>
+
+<div id="SupportedDataReport">
+	<p>SupportedDataReport</p>
+</div>
+
+<div id="IC4VCVersionReport">
+	<p>IC4VCVersionReport</p>
+</div>
+<div id="MainReport">
+	<p>Main Report</p>
+</div>
+
+

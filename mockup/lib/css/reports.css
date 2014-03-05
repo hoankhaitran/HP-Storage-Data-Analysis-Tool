@@ -1,0 +1,9 @@
+
+
+.panel-body > .row {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.btn.pull-right {
+    margin-left: 5px;
+}

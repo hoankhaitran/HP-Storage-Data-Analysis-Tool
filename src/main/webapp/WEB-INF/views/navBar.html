@@ -1,0 +1,26 @@
+
+<div id="navBar" class='navbar navbar-inverse'>
+		<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+        
+           
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+               
+                <li  class="active"><a th:href="@{/}">Home</a></li>
+				<li><a th:href="@{/showMetricReport}">Metric Reports</a></li>	
+				<li><a th:href="@{/showupload}">Admin Upload</a></li>
+				<li><a th:href="@{/resources/Sample Data-Fixed.csv}">Sample data</a></li>
+				<li><a th:href="@{/resources/dataset-withoutduplicates.csv}">Clean data without duplicates</a></li>
+				<li><a th:href="@{/resources/dataset-withduplicates.csv}">Clean data with duplicates</a></li>
+						
+				<li><a th:href="@{/j_spring_security_logout}">logout</a></li>
+                </ul>
+            </div>
+           
+        </div>
+        
+    </nav>
+		
+</div>
+

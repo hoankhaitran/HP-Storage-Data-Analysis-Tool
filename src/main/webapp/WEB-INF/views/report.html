@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+
+<title>Report</title>
+<!-- Bootstrap core CSS -->
+<link th:href="@{/resources/libs/css/bootstrap.css}" rel="stylesheet"></link>
+
+<!-- Custom CSS for the 'Heroic Features' Template -->
+<link th:href="@{/resources/libs/css/heroic-features.css}"
+	rel="stylesheet"></link>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"></link>
+
+<script th:src="@{/resources/libs/js/myscript.js}"></script>
+
+<script> /* $.jStorage is now available */ </script>
+
+</head>
+
+<body>
+
+	<div th:include="navBar::#navBar"></div>
+
+	<div class="container">
+		<div id="MessageDiv" th:include="message::#body"></div>
+		
+
+		<div id="tabs">
+			<ul>
+				<li><a href="#tabs-1">Customer Environment Size Report</a></li>
+				<li><a href="#tabs-2">New Customers</a></li>
+				<li><a href="#tabs-3">Supported Data</a></li>
+				<li><a href="#tabs-4">IC4VC Version</a></li>
+				<li><a href="#tabs-5">Main Report</a></li>
+			</ul>
+			<div id="tabs-1">
+				<div id="CustomerEnvReport" th:include="reportdiv::#CustomerEnvReport"></div>
+				<button id="addCER" class="btn btn-success" type="button">Add to main report</button>
+			</div>
+			<div id="tabs-2">
+				<div id="NewCustomersReport" th:include="reportdiv::#NewCustomersReport"></div>
+				<button id="save2" class="btn btn-success" type="button">Save</button>
+			</div>
+			<div id="tabs-3">
+				<div id="SupportedDataReport" th:include="reportdiv::#SupportedDataReport"></div>
+			</div>
+			<div id="tabs-4">
+				<div id="IC4VCVersionReport" th:include="reportdiv::#IC4VCVersionReport"></div>
+			</div>
+			<div id="tabs-5">
+				<div id="MainReport" th:include="reportdiv::#MainReport"></div>
+				<button id="saveHtml" class="btn btn-success" type="button">Save</button>
+				<button id="removeHtml" class="btn btn-success" type="button">Remove unsaved reports</button>
+				<button id="clearHtml" class="btn btn-success" type="button">Clear cache</button>
+				
+			</div>
+		</div>
+		
+		<script>
+			
+		
+		$("#addCER").click(function() {
+			$('#MainReport').append($('#CESTableDiv').html());
+			$("#addCER").prop("disabled",true);
+			$("#saveHtml").prop("disabled",false);
+		});
+		$("#save2").click(function() {
+			$('#MainReport').append($('#NewCustomersReport').html());
+		});
+		$("#removeHtml").click(function() {
+			$('#MainReport').html( sessionStorage.getItem('html') );
+				
+		});
+		$("#saveHtml").click(function() {
+			sessionStorage.setItem('html',$('#MainReport').html());
+			$("#saveHtml").prop("disabled",true);
+			
+		});
+		$("#clearHtml").click(function() {
+			sessionStorage.clear();
+			$("#saveHtml").prop("disabled",false);
+			$('#MainReport').html( sessionStorage.getItem('html') );
+			
+		});
+				
+		$(document).ready(function() {
+			$('#MainReport').html( sessionStorage.getItem('html') );
+				
+		});
+		    
+		
+		$(function() {
+		    $( "#tabs" ).tabs();
+		});
+		</script>
+		<footer>
+			<div id="footer" th:include="footer::#copy"></div>
+
+		</footer>
+
+	</div>
+	<!-- /.container -->
+
+
+
+
+
+</body>
+
+</html>
