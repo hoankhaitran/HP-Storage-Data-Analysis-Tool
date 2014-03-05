@@ -7,15 +7,19 @@ package edu.csus.csc191.controllers;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 import javax.servlet.ServletContext;
+
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import edu.csus.csc191.common.Utilities;
 
 
@@ -49,8 +53,9 @@ public class HomeController {
             String formattedDate = dateFormat.format(date);
             model.addAttribute("message", "Welcome to DSAT !");
             model.addAttribute("serverTime", formattedDate);
+          
 
-            return "home";
+            return "redirect:/upload";
         }
     
     /**
@@ -68,21 +73,6 @@ public class HomeController {
             return "report";
         }
 
-    /**
-     * Upload file.
-     *
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/showupload", method = RequestMethod.GET)
-        public String upload(Model model) {
-
-            model.addAttribute("message", "Upload");
-
-            return "upload";
-        }
-
-    static {
-        System.out.println(" -- Initializing HomeController.");
-    }
+   
+   
 }

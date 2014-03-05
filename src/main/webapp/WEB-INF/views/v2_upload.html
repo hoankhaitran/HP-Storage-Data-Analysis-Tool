@@ -1,0 +1,28 @@
+<div th:fragment="guts">
+	<!--REQUIRED-->
+
+	<p class="lead">Choose files to upload and process.</p>
+	
+	<div id="fileUploadDiv">
+		<form action="home.html" th:action="@{/doUpload}" method="post"
+			enctype="multipart/form-data">
+			<input type="file" name="myFile" /> <input type="submit"
+				value="Upload" />
+		</form>
+
+	</div>
+	<h2>Progress:</h2>
+	<div class="progress">
+
+		<div class="progress-bar" role="progressbar" aria-valuenow="60"
+			aria-valuemin="0" aria-valuema="100" style="width: 60%">
+			<span class="sr-only">60% Percent</span>
+		</div>
+	</div>
+	<h2>Details:</h2>
+<pre>
+	<div id="MessageDiv" th:include="message::#body"></div>
+</pre>
+
+</div>
+<!--REQUIRED-->

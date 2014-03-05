@@ -6,6 +6,7 @@ package edu.csus.csc191.controllers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -15,7 +16,9 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +37,25 @@ public class ReportController {
     private static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
     @Autowired
     DynamicCsv dcsv ;
+    @RequestMapping(value = "/reports", method = RequestMethod.GET)
+    @Secured("ROLE_ADMIN")
+    public String v2Reports(Locale locale, Model model) {
 
+         /*
+          * TODO: The following line should be placed somewhere better. It
+          * needs to be called somewhere where we can guarantee it will be
+          * executed (e.g. when Spring Tomcat server starts up) because we
+          * can't guarantee that a user will visit the root ("/") page.
+          * What if the server starts, and a user goes directly to some
+          * other page other than the root page ("/") like "/reports" for
+          * example? In that case Utilities.columnMap will never be
+          * initialized.
+          */
+        
+
+        model.addAttribute("message", "Welcome to DSAT !");
+        return "v2_reports";
+    }
 
     /**
      * Get the average, sum, and maximum of the specified {column} of type {dataType} during {yearmonth}

@@ -96,9 +96,9 @@ public class CsvImportController {
 		int count= exportMasterCsvTableToCsvFile("dataset-withoutduplicates");
 		model.addAttribute("message",rows + " rows were processed and "+(rows-count)+" duplicates removed");
 		model.addAttribute("message1",count + " unique rows added successfully ");
+		System.out.println(count);
 		
-		
-		return "home";
+		return "v2_upload";
 
 	}
 

@@ -64,7 +64,20 @@
 <beans:bean id="initMap" class="edu.csus.csc191.common.Utilities" init-method="initColumnsHashMap">
    
  </beans:bean>
+   <!--<beans:bean id="commonModelAttributes" class="edu.csus.csc191.common.CommonModelAttributes" init-method="setCommonAttributes" auto-wired="byName">-->
+        <!--</beans:bean>-->
 
+        <!--This registers an interceptor (i.e. filter) that modifies any
+          controller's view and model before Spring continues on doing what it
+          does. Basically, if takes control of the model and view that a
+          controller method returns and lets you process stuff before Spring
+          continues doing what it normally does.-->
+        <interceptors>
+            <!--<interceptor>-->
+                <!--<mapping path="/joe/**" />-->
+                <beans:bean class="edu.csus.csc191.common.CustomLayoutInterceptor" /> 
+            <!--</interceptor>-->
+       </interceptors>
 
 
 	<context:annotation-config />

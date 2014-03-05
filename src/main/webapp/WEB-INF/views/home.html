@@ -30,7 +30,14 @@
 
 	<div class="container">
 		<div id="MessageDiv" th:include="message::#body"></div>
-		
+		<button id="importBut" class="btn btn-success" type="button">Import to DB</button>
+			<script th:inline="javascript">
+$('#importBut').click(function() {
+	var base= $('#message1').text();
+	alert("hello");
+   //window.location =base+"/importCsv";
+});
+</script>
 		
 		<footer>
 			<div id="footer" th:include="footer::#copy"></div>

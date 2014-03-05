@@ -30,7 +30,30 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
     @Autowired ServletContext context;
+    /**
+     * Upload file.
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+        public String upload(Model model) {
 
+            model.addAttribute("message", "Upload");
+
+            return "v2_upload";
+        }
+
+    static {
+        System.out.println(" -- Initializing HomeController.");
+    }
+    /**
+     * Handles the "/upload" page (that root "/" redirects to by default).
+     *
+     * @param locale
+     * @param model The model associated with the home page view.
+     * @return Returns the name of the view that should generate the response content.
+     */
     /**
      * Handle file uploads.
      *
@@ -40,7 +63,7 @@ public class FileController {
      *
      * @throws IOException
      */
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/doUpload", method = RequestMethod.POST)
     @Secured("ROLE_ADMIN")
         public String upload(@RequestParam("myFile") MultipartFile myFile, Model model) throws IOException {
 
@@ -66,7 +89,7 @@ public class FileController {
                         bos.write(bytes);
                         bos.close();    
                         model.addAttribute("message", "Your xml is uploaded to:"+path);
-                        return "upload";
+                        return "redirect:/v2_upload";
                 		
                 	}else{//save to resources folder
                 		byte[] bytes = myFile.getBytes();
@@ -85,13 +108,13 @@ public class FileController {
                 } catch (IOException e) {
                     // e.printStackTrace();
                     model.addAttribute("message", "Something is wrong, controller can not write file to server's file system !");
-                    return "upload";
+                    return "v2_upload";
 
                 }
 
             } else { // otherwise reject the file.
                 model.addAttribute("message", "Your file type is " + myFile.getContentType() + ". Only  XML, or CSV files allowed.");
-                return "upload";
+                return "v2_upload";
             }
             
        
