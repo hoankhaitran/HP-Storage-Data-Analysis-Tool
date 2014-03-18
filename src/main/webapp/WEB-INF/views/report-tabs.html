@@ -1,0 +1,696 @@
+<div th:fragment="styles"><!--REQUIRED-->
+   <style>
+    </style>
+</div><!--REQUIRED-->
+
+<div th:fragment="guts"><!--REQUIRED-->
+		<div id="tabs" >
+			<input class="form-control" id="hiddencolumns" type="text"  ></input>
+			<ul>
+				<li><a href="#tabs-1">Customer Environment Size Report</a></li>
+				<li><a href="#tabs-2">New Customers</a></li>
+				<li><a href="#tabs-3">Supported Data</a></li>
+				<li><a href="#tabs-4">IC4VC Version</a></li>
+				<li><a href="#tabs-5">Storage Arrays</a></li>
+				<li><a href="#tabs-6">Version Information</a></li>
+				<li><a href="#tabs-7">Storage Metrics</a></li>
+				<li><a href="#tabs-8">Main Report</a></li>
+			</ul>
+			<div id="tabs-1">
+				<div id="CustomerEnvReport" th:include="reportdiv::#CustomerEnvReport"></div>
+				<button id="addCER" class="btn btn-success" type="button">Add to main report</button>
+			</div>
+			<div id="tabs-2">
+				<div id="NewCustomersReport" th:include="reportdiv::#NewCustomersReport"></div>
+				<button id="addNCR" class="btn btn-success" type="button">Add to main report</button>
+			</div>
+			<div id="tabs-3">
+				<div id="SupportedDataReport" th:include="reportdiv::#SupportedDataReport"></div>
+				<button id="addSDR" class="btn btn-success" type="button">Add to main report</button>
+			</div>
+			<div id="tabs-4">
+				<div id="IC4VCVersionReport" th:include="reportdiv::#IC4VCVersionReport"></div>
+				<button id="addIC4VC" class="btn btn-success" type="button">Add to main report</button>
+			</div>
+			<div id="tabs-5">
+				<div id="StorageArrays" th:include="reportdiv::#StorageArrays"></div>
+				<button id="addStorageArray" class="btn btn-success" type="button">Add to main report</button>
+				
+			</div>
+			<div id="tabs-6">
+				<div id="VersionInformation" th:include="reportdiv::#VersionInformation"></div>
+				<button id="addVersionArray" class="btn btn-success" type="button">Add to main report</button>
+			</div>
+			<div id="tabs-7">
+				<div id="StorageMetrics" th:include="reportdiv::#StorageMetrics"></div>
+		
+				
+
+				<button id="addStorageMetrics" class="btn btn-success" type="button">Add to main report</button>
+			</div>
+			<div id="tabs-8">
+				<div id="MainReport" th:include="reportdiv::#MainReport"></div>
+				<button id="saveHtml" class="btn btn-success" type="button">Save to cache</button>
+				<button id="saveMainReportToImage" class="btn btn-success" type="button">Save as image</button>
+				<button id="printMainReport" class="btn btn-success" type="button">Print Main Report</button>
+				
+				
+			</div>
+		</div>
+</div><!--REQUIRED-->		
+		
+<div th:fragment="scripts"><!--REQUIRED-->
+    <script th:inline="javascript">
+	    /**********************************************************************
+	    Append reports to main report
+		**********************************************************************/  	
+	
+	  	/**********************************************************************
+		**********************************************************************/
+		
+		
+	
+		
+	    $("#calculateBut").click(function() {
+	
+	    	calculateNCRReport();
+		});
+		$("#addCER").click(function() {
+			$('.deleteCol').remove();//delete all the delete buttons before adding table to main report
+			$('#table_MainReport').append("<tr><td>"+$('#CESTableDiv').html()+"</td>"+'<td><div class="deleteReport"><button class="btn btn-warning" type="button" onclick ="delete_row($(this))" >Delete</button></div></td></tr>');
+			$("#addCER").prop("disabled",true);
+			$("#saveHtml").prop("disabled",false);
+			$('#hiddencolumns').val("");  //clear column buffer
+	    	$('#columns').val("");
+	    	
+		});
+		$("#addNCR").click(function() {
+			$('#table_MainReport').append("<tr><td>"+$('#NCRTableDiv').html()+"</td>"+'<td><div class="deleteReport"><button class="btn btn-warning" type="button" onclick ="delete_row($(this))" >Delete</button></div></td></tr>');
+			$("#addNCR").prop("disabled",true);
+			$("#saveHtml").prop("disabled",false);
+		});
+		$("#addSDR").click(function() {
+			$('#table_MainReport').append("<tr><td>"+$('#SupportedDataReport').html()+"</td>"+'<td><div class="deleteReport"><button class="btn btn-warning" type="button" onclick ="delete_row($(this))" >Delete</button></div></td></tr>');
+			$("#saveHtml").prop("disabled",false);
+			$("#addSDR").prop("disabled",true);
+		});
+		$("#addIC4VC").click(function() {
+			$('#table_MainReport').append("<tr><td>"+$('#IC4VCVersionReport').html()+"</td>"+'<td><div class="deleteReport"><button class="btn btn-warning" type="button" onclick ="delete_row($(this))" >Delete</button></div></td></tr>');
+			$("#addIC4VC").prop("disabled",true);
+			$("#saveHtml").prop("disabled",false);
+		});
+		$("#addStorageArray").click(function() {
+			$('.deleteCol').remove();//delete all the delete buttons before adding table to main report
+			$('#table_MainReport').append("<tr><td>"+$('#table_StorageArrayDiv').html()+"</td>"+'<td><div class="deleteReport"><button class="btn btn-warning" type="button" onclick ="delete_row($(this))" >Delete</button></div></td></tr>');
+			$("#addStorageArray").prop("disabled",true);
+			$("#saveHtml").prop("disabled",false);
+		});
+		$("#addVersionArray").click(function() {
+			$('#table_MainReport').append("<tr><td>"+$('#table_VersionDiv').html()+"</td>"+'<td><div class="deleteReport"><button class="btn btn-warning" type="button" onclick ="delete_row($(this))" >Delete</button></div></td></tr>');
+			$("#addVersionArray").prop("disabled",true);
+			$("#saveHtml").prop("disabled",false);
+		});
+
+		$("#addStorageMetrics").click(function() {
+			$('.deleteCol').remove();//delete all the delete buttons before adding table to main report
+			$('#table_MainReport').append("<tr><td>"+$('#table_StorageDiv').html()+"</td>"+'<td><div class="deleteReport"><button class="btn btn-warning" type="button" onclick ="delete_row($(this))" >Delete</button></div></td></tr>');
+			$("#addStorageMetrics").prop("disabled",true);
+			$("#saveHtml").prop("disabled",false);
+		});		
+		
+		
+		$("#saveHtml").click(function() {
+			sessionStorage.setItem('html',$('#MainReport').html());
+			$("#saveHtml").prop("disabled",true);
+			
+		});
+		
+		$("#clearHtml").click(function() {
+			sessionStorage.clear();
+			$("#saveHtml").prop("disabled",false);
+			loadMainReport();
+			
+		});
+				
+		$(document).ready(function() {
+			loadMainReport();
+				
+		});
+
+		function loadMainReport(){
+			var content = sessionStorage.getItem('html');
+			if(content!=null)			
+			$('#MainReport').html( content );
+			}
+	
+		$("#saveMainReportToImage").click(function() {
+			console.log("saveMainReportToImage");
+			
+		    $('.deleteReport').remove();//remove all delete buttons from main report
+		    html2canvas($("#MainReport"),{
+				onrendered: function (canvas){
+					
+					var mywindow = window.open('', 'Report as Image');
+		    	    mywindow.document.write('<html><head><title>Image Window</title>');
+		    	    mywindow.document.write('</head><body >');
+		    	    var image = new Image();
+		    		image = canvas.toDataURL("image/png");
+		    		
+		    	    mywindow.document.write("<img src="+image+"></img>");
+		    	    mywindow.document.write('</body></html>');
+		    	    mywindow.document.close();
+					}
+	
+	    	    });
+			
+		});
+	
+		$("#printMainReport").click(function() {
+			console.log("printMainReport");
+			$('.deleteReport').remove();//remove all delete buttons from main report
+			var mywindow = window.open('', 'print_div', 'height=400,width=600');
+		    mywindow.document.write('<html><head><title>Print Window</title>');
+		    mywindow.document.write('</head><body >');
+		    mywindow.document.write($('#MainReport').html());
+		    mywindow.document.write('</body></html>');
+		    mywindow.document.close();
+		    mywindow.print();
+	
+		    
+		    
+			
+		});
+		    
+		function enableAllButtons(){
+			$("#addCER").prop("disabled",false);
+			$("#addNCR").prop("disabled",false);
+			$("#addSDR").prop("disabled",false);
+			$("#addIC4VC").prop("disabled",false);
+			$("#addVersionArray").prop("disabled",false);
+			$("#addStorageArray").prop("disabled",false);
+			$("#addStorageMetrics").prop("disabled", false);
+			$("#addStorageMetrics").prop("disabled",false);
+			
+		}
+		//tabs function
+		$(function() {
+		    $( "#tabs" ).tabs();
+		    
+		    
+		});
+	
+		/**********************************************************************
+		**********************************************************************/	
+    
+		/**********************************************************************
+    	Storage Array Functions
+    	**********************************************************************/
+    
+    	$("#storageCalc").click(function() {
+    		calculateStorage();
+    	});
+    	
+     	function calculateStorage(columns)
+    	{
+     		
+ 	      	var sDate = $("#datePickerStart_StorageArrays").val();
+ 	      	var eDate = $("#datePickerEnd_StorageArrays").val();
+ 	      	$("#SAreportName").html("Storage Array");
+ 	      	$("#table_StorageArray").html("");
+ 	      	$('#table_StorageArray tr:first').remove();
+			$("#table_StorageArray").prepend('<thead><tr><th>Arrays</th><th>Customer Count</th><th>Array Count</th><th>% Of Array Count</th><th class="deleteCol">Delete</th></tr></thead>');
+ 	      	        
+            var contextPath = /*[[${contextPath}]]*/ "";
+                     
+		        $.get( contextPath+"/reports/storageArrays/"+columns+"/"+sDate+"/"+eDate, function( data ) 
+		        {
+					$.each(data, function(i, item) 
+					{
+						$("#table_StorageArray").last().append("<tr><td>"+item.arrayName+"</td><td>"+item.customerCount+"</td><td>"+item.arrayCount+"</td><td>"+item.percent+"</td>"+
+								'<td><div class="deleteCol"><button class="btn btn-danger" type="button" onclick ="delete_rowSA($(this))" >Delete</button></div></td></tr>');	
+						
+						}); 
+		        
+		        }, "json").fail(function() {
+		            alert( "There is no data for this column!" );
+		            columns.pop();
+		            calculateStorage(columns);
+		        });	  
+             
+	    }   	
+     	
+        $('#columnSelect_StorageArrays').on("change", function() {
+        	var index = $('#columnSelect_StorageArrays :selected').val();
+                
+                $.get( "getMappedColumns", function( data ) {
+                var selectedCol = data[0][index];
+                columns.push(selectedCol);
+                console.log(columns.toString());
+                calculateStorage(columns);
+                });      
+                
+                enableAllButtons();
+                
+        });
+		//A modified version of delete_row for usage when percentage of each row is related
+		//Global array for columns
+    	var columns = new Array();
+        function delete_rowSA(row)
+        {
+        	        	
+        	var index = row.closest('tr').index();
+        	console.log(index);
+        	row.closest('tr').remove();
+        	columns.splice(index,1);
+        	calculateStorage(columns);
+        	console.log(columns.toString());
+            			    
+	
+        }
+            
+       	/**********************************************************************
+    	**********************************************************************/
+ 	
+    	
+		/**********************************************************************
+    	Version Information Functions
+    	**********************************************************************/
+    
+     	function returnVersion()
+    	{
+	    	var columnStr = $("#hiddencolumns").val(); // string
+ 	        var columns = columnStr.split(","); // array
+ 	      	var sDate = $("#datePickerStart_Version").val();
+ 	      	var eDate = $("#datePickerEnd_Version").val();
+ 	      	$("#VIreportName").html("Version Information");
+	        $('#table_Version').html("");
+	        var name = $('#columnSelect_VersionInformation :selected').text();
+	        $("#table_Version").append("<tr><th>"+name+"</th><th>Customer</th><th>Storage Customers</th><th>% Of All Customers</th></tr>");
+	
+ 	        $.each(columns, function( index, value ){	
+	            var contextPath = /*[[${contextPath}]]*/ "";
+	            	           
+ 	            $.get( contextPath+"/reports/versionInformation/"+columns[index]+"/"+sDate+"/"+eDate, function( data ) {
+ 	            	 
+ 					$.each(data, function(i, item) {
+ 						$("#table_Version").last().append("<tr><td>"+item.versionNumber+"</td><td>"+item.totalCount+"</td><td>"+item.storageCount+"</td><td>"+item.percent+"</td></tr>");
+ 						
+ 	 					}); 
+  
+	            }, "json").fail(function() {
+	                alert( "Column does not have metric value! Please choose a different column" );
+	                columns.pop();
+	                $('#hiddencolumns').val(columns.join(","));
+	            });
+ 	        });
+ 	    }   	
+     	
+        $('#columnSelect_VersionInformation').on("change", function() {
+            var index = $('#columnSelect_VersionInformation :selected').val();
+            console.log("value: "+index);
+            
+            $.get( "getMappedColumns", function( data ) {
+            	$('#columns').val(data[1][index]);
+                $('#hiddencolumns').val(data[0][index]);
+               /* if($('#hiddencolumns').val()==''){
+                    $('#columns').val(data[1][index]);
+                    $('#hiddencolumns').val(data[0][index]);
+                }
+                else{	
+                    $('#columns').val($('#columns').val() +","+data[1][index] );
+                    $('#hiddencolumns').val($('#hiddencolumns').val() +","+data[0][index] );
+                    }
+                    */
+                returnVersion();
+                enableAllButtons();
+            });
+     
+        });
+
+
+ 
+        
+		/**********************************************************************
+    	Storage Metrics Functions
+    	**********************************************************************/
+
+    	function returnMetrics(column)
+    	{			
+ 	      	var sDate = $("#datePickerStart_Version").val();
+ 	      	var eDate = $("#datePickerEnd_Version").val();
+ 	 	      	
+            var contextPath = /*[[${contextPath}]]*/ "";
+            $("#SMreportName").html("Storage Page View Metrics");
+            $('#table_StorageMetrics tr:first').remove();
+			$("#table_StorageMetrics").prepend('<thead><tr><th>Page Name</th><th>Total Page Views</th><th>Customers who viewed page</th><th>% of customers viewing page</th><th>Average page views per customer (for those performing operation)</th><th>Average Time (ms)</th></tr></thead>');
+/*             alert("/reports/returnStorageMetric/"+column+"/"+sDate+"/"+eDate);
+ */            	                       
+	 	    $.get( contextPath+"/reports/returnStorageMetric/"+column+"/"+sDate+"/"+eDate, function( data ) {
+            	 	    	
+	 	    	$("#table_StorageMetrics").last().append("<tr><td>"+data.name+"</td><td>"+data.totalPageViews+"</td><td>"+data.customerPageViews+"</td><td>"+data.customersViewingPagePercent+"%</td><td>"+data.averagePageViews+"</td><td>"+data.averageTime+"</td>"+
+	 	    	'<td><div class="deleteCol"><button class="btn btn-danger" type="button" onclick ="delete_row($(this))" >Delete</button></div></td></tr>');	
+			
+	 	    }, "json").fail(function() {
+                alert( "Column does not have metric value! Please choose a different column" );
+                columns.pop();
+                $('#hiddencolumns').val(columns.join(","));
+            });
+	    }   	
+  
+    	
+    	
+        $("#columnSelect_StorageMetrics").on("change", function() {
+        	
+        	//var index = $('#columnSelect_StorageMetrics').prop('selectedIndex')
+                       
+           $.get( "getMappedColumns", function( data ) {
+            	$('#columns').val(data[1][index]);
+                $('#hiddencolumns').val(data[0][index]);
+                var index = $('#columnSelect_StorageMetrics :selected').val();
+                var selectedCol = data[0][index];
+                console.log(selectedCol);
+                returnMetrics(selectedCol);
+	            enableAllButtons();
+            });
+        });
+
+    	
+      	/**********************************************************************
+    	**********************************************************************/
+   	
+        
+        
+
+		//Populate dropdowns
+		$.get( "getMappedColumns", function( data ) {
+            var html = '';
+            var indexArray = new Array();
+            for ( var i in data[1]) {
+                var csv = data[1];// mapped column values
+                html += '<option value="'
+                + csv[i]
+                + '">'
+                + csv[i]
+                + '</option>';
+            }
+            $('#selectColumnDropbox').html(html);
+            
+           // $("#columnSelect_StorageMetrics").html(html);
+            /**********************************************************************
+            Filter for columnSelect_VersionInformation dropdown
+        	**********************************************************************/
+            html = '';
+            for ( var i in data[1]) {
+                var csv = data[1];// mapped column values
+                
+                if(csv[i].match("ESXVersionsUnique")||csv[i].match("VCenterVersions")){
+	                html += "<option value="+i+">"
+	                + csv[i]
+	                + '</option>';
+	                indexArray.push(i);
+                }
+                
+            }
+            $('#columnSelect_VersionInformation').html(html);
+            
+            /**********************************************************************
+            Filter for columnSelect_StorageArrays dropdown
+        	**********************************************************************/
+           html = '';
+           for ( var i in data[1]) {
+               var csv = data[1];// mapped column values
+               
+               if(csv[i].search("Count")!=-1){
+	                html += "<option value="+i+">"
+	                + csv[i]
+	                + '</option>';
+	                indexArray.push(i);
+               }
+               
+           
+           }
+           $('#columnSelect_StorageArrays').html(html);
+           
+
+           /**********************************************************************
+           Filter for columnSelect_StorageMetrics dropdown
+      	 	**********************************************************************/
+          html = '';
+          for ( var i in data[1]) {
+              var csv = data[1];// mapped column values
+              
+              if( (/^ClusterM/).test(csv[i])==true
+                  ||(/^Host/).test(csv[i])==true
+                  ||(/^VM/).test(csv[i])==true
+                  ||(/^DS/).test(csv[i])==true
+                  ||(/^Monitor/).test(csv[i])==true
+                  ||(/^DAM/).test(csv[i])==true
+                      ){
+	                html += "<option value="+i+">"
+	                + csv[i]
+	                + '</option>';
+	                indexArray.push(i);
+	                console.log(csv[i]);
+              }
+              
+          
+          }
+          $('#columnSelect_StorageMetrics').html(html);
+          /**********************************************************************
+          Filter for columnSelect_CES dropdown
+     	 	**********************************************************************/
+         html = '';
+         for ( var i in data[1]) {
+             var csv = data[1];// mapped column values
+             
+             if( (/^Servers/).test(csv[i])==true
+                 ||(/^ILos/).test(csv[i])==true
+                 ||(/^VCMs/).test(csv[i])==true
+                 ||(/^OAs/).test(csv[i])==true
+                 
+                     ){
+	                html += "<option value="+i+">"
+	                + csv[i]
+	                + '</option>';
+	                indexArray.push(i);
+	                console.log(csv[i]);
+             }
+             
+         
+         }
+         $('#columnSelect_CES').html(html);
+          
+           /**********************************************************************
+           End of this filter
+       	   **********************************************************************/
+        });
+
+        /*
+         * Get reportconfig.xml from the server then parse it.
+         */
+        var link= /*[[@{resources/xml/reportconfig.xml}]]*/ ;
+        $.ajax({
+            type: "GET",
+            url: link,
+            dataType: "xml",
+            success: parseXml
+        });
+        function parseXml(xml) {
+
+            /* $val= $(xml).find("column");
+             $('#hiddencolumns').val($val.text());
+             $val= $(xml).find("date");
+             $('#datepicker').val($val.text());
+            
+             calculateReport();*/
+            
+ 			
+
+             
+            /* $val = $(xml).find("CESReport").find('column');
+ 			$('#hiddencolumns').val( $val.text());
+ 			$val = $(xml).find("CESReport").find('date').text();
+ 			$('#datepicker').val($val);
+ 			calculateReport();*/
+            
+             
+         }
+//Calculate customer environment size report
+        function calculateCESReport(selectedCol){
+        	enableAllButtons();
+	    	//var columns = $("#CEShiddencolumns").val(); // string
+	        var date = $("#CERdatepicker").val();
+	       
+	       // columns = columns.split(","); // array
+			
+			//var index = $('#selectColumnDropbox').prop('selectedIndex');
+	
+           // var value;
+			$('#CESTable tr:first').remove();
+			$("#CESTable").prepend('<thead><tr><th>Name</th><th>Total</th><th>Average</th><th>Max</th><th class="deleteCol">Delete</th></tr></thead>');
+            
+            $.get( "getMappedColumns", function( data ) {
+               
+                //value = data[0][index];
+                var contextPath = /*[[${contextPath}]]*/ "";
+    	        $.get( contextPath+"/reports/reportCustomerEnvironmentSize/"+selectedCol+"/cColumn/"+date, function( data ) {
+                    $("#CESTable").last().append("<tr><td>"+data.envName+"</td><td>"+data.total+"</td><td>"+data.average+"</td><td>"+data.max+"</td>"
+        	        +'<td><div class="deleteCol"><button class="btn btn-danger" type="button" onclick ="delete_row($(this))" >Delete</button></div></td></tr>');
+                    $("#reportName").html(data.reportName);
+                    
+                    
+                }, "json").fail(function() {
+                    alert( "Column does not have metric value! Please choose a different column" );
+                 //   columns.pop();
+                 //   $('#CEShiddencolumns').val(columns.join(","));
+                    
+                });        
+    	        
+               
+              
+                
+            });
+            
+	        
+	       // $('#CESTable').html("");
+	      //  $("#CESTable").append("<thead><tr><th>Name</th><th>Total</th><th>Average</th><th>Max</th><th class="deleteCol">Delete</th></tr></thead>");
+	        
+	        
+	     //   $.each(columns, function( index, value ) {
+	           // var contextPath = /*[[${contextPath}]]*/ "";
+	       /*     console.log("index:" +index);
+	            
+	            $.get( contextPath+"/reports/reportCustomerEnvironmentSize/"+value+"/cColumn/"+date, function( data ) {
+	                $("#CESTable").last().append("<tr id="+index+"><td>"+data.envName+"</td><td>"+data.total+"</td><td>"+data.average+"</td><td>"+data.max+"</td>"+
+	    	                '<td><button id="deleteRow" class="btn btn-success" type="button">Delete</button></td></tr>');
+	                $("#reportName").html(data.reportName);
+	                console.log("index2:" +index);
+	                
+	            }, "json").fail(function() {
+	                alert( "Column does not have metric value! Please choose a different column" );
+	                columns.pop();
+	                $('#hiddencolumns').val(columns.join(","));
+	                
+	            });
+	
+	        });*/
+
+	      
+	       
+	    }
+
+        $('#columnSelect_CES').on("change", function() {
+            //var index = $('#selectColumnDropbox').prop('selectedIndex');
+                      
+            $.get( "getMappedColumns", function( data ) {
+                //$('#Cols').html(data[0][index]);
+                //console.log(data[0][index]);
+				var index = $('#columnSelect_CES :selected').val();
+           	    var selectedCol = data[0][index];  
+               
+                if($('#hiddencolumns').val()==''){
+                    $('#columns').val(data[1][index]);
+                    $('#hiddencolumns').val(data[0][index]);
+                }
+                else{	
+                    $('#columns').val($('#columns').val() +","+data[1][index] );
+                    $('#hiddencolumns').val($('#hiddencolumns').val() +","+data[0][index] );
+                    }
+                calculateCESReport(selectedCol);
+            });
+            
+            
+        });
+        
+        function delete_row(row)
+        {
+        	$("#saveHtml").prop("disabled",false);
+        	console.log('delete');
+            row.closest('tr').remove();
+            
+			
+
+			$("#CESTable" ).on( "click", "tr" , function() {
+	        	var i =$( this ).index() ;
+				sessionStorage.setItem('rowIndex',i);
+				console.log(i);
+						         	
+	     	});      
+			var i = sessionStorage.getItem('rowIndex');
+            var columns = $("#CEShiddencolumns").val(); // string
+            columns = columns.split(","); // array
+			columns.splice(i,1);
+			$('#CEShiddencolumns').val(columns.join(",")); 
+			
+
+
+        }
+
+        
+        
+
+      
+        
+//Calculate new customer report
+        function calculateNCRReport(){
+        	enableAllButtons();
+	    	
+	        var date = $("#NCRdatepicker").val();
+	        var months = [ "January", "February", "March", "April", "May", "June", 
+	                       "July", "August", "September", "October", "November", "December" ];
+	        var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+
+	        var selectedMonthName = months[iMonth];
+	        
+	        $('#NCRTable').html("");
+	        $("#NCRTable").append("<tr>	<th>Metric</th><th>"+selectedMonthName+"</th></tr>");
+	            
+	            var contextPath = /*[[${contextPath}]]*/ "";
+	            $.get( contextPath+"/reports/newCustomersReport/"+date, function( data ) {
+	                $("#NCRTable").last().append("<tr><td>All Customer</td><td>"+data.allCustomer+"</td></tr>");
+	                $("#NCRTable").last().append("<tr><td>Storage Customer</td><td>"+data.storageCustomer+"</td></tr>");
+	                $("#NCRTable").last().append("<tr><td>Server Customer</td><td>"+data.serverCustomer+"</td></tr>");
+	                $("#NCRTable").last().append("<tr><td>Server and Storage Customer</td><td>"+data.serverAndStorageCustomer+"</td></tr>");
+	                $("#NCRreportName").html(data.reportName);
+	            }, "json").fail(function() {
+	                alert( "Error! Please select a month and year" );
+	                
+	                
+	            });
+	
+	       
+	       
+	    }
+       
+
+        
+        $('#selectColumnDropbox').on("change", function() {
+            var index = $('#selectColumnDropbox').prop('selectedIndex');
+                        
+            $.get( "getMappedColumns", function( data ) {
+                //$('#Cols').html(data[0][index]);
+                //console.log(data[0][index]);
+
+               
+                if($('#hiddencolumns').val()==''){
+                    $('#columns').val(data[1][index]);
+                    $('#hiddencolumns').val(data[0][index]);
+                }
+                else{	
+                    $('#columns').val($('#columns').val() +","+data[1][index] );
+                    $('#hiddencolumns').val($('#hiddencolumns').val() +","+data[0][index] );
+                    }
+                calculateCESReport();
+            });
+            
+            
+        });
+
+        $('#clearBut').on("click", function() {
+        	console.log("test");
+        	$('#hiddencolumns').val("");  
+        	$('#columns').val("");          
+        });
+	    </script>
+</div><!--REQUIRED-->
+		

@@ -17,6 +17,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,33 +28,40 @@ import org.springframework.web.multipart.MultipartFile;
  * Handles file-related requests.
  */
 @Controller
-public class FileController {
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+@RequestMapping(value = "/upload")
+@Secured("ROLE_ADMIN")
+public class UploadController extends AppController {
+    private static String PAGE_TITLE = "Upload";
+    private static String VIEW_NAME = "v2_upload";
     @Autowired ServletContext context;
+
     /**
-     * Upload file.
+     * Set defaults model attributes for this controller.
      *
-     * @param model
-     * @return
+     * @param model The model that is modified whenever a @RequestMapping URL
+     * is requested by the client.
      */
-    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+    @ModelAttribute
+    @Override
+    public void setCommonModelAttributes(Model model) {
+        super.setCommonModelAttributes(model);
+        model.addAttribute("pageTitle", PAGE_TITLE);
+    }
+
+    /**
+     * Handles the "/upload" page that users use to upload CSV files.
+     *
+     * @param model The model associated with the home page view.
+     * @return Returns the name of the view that should generate the response content.
+     */
+    @RequestMapping(value = "", method = RequestMethod.GET)
         public String upload(Model model) {
 
             model.addAttribute("message", "Upload");
 
-            return "v2_upload";
+            return VIEW_NAME;
         }
 
-    static {
-        System.out.println(" -- Initializing HomeController.");
-    }
-    /**
-     * Handles the "/upload" page (that root "/" redirects to by default).
-     *
-     * @param locale
-     * @param model The model associated with the home page view.
-     * @return Returns the name of the view that should generate the response content.
-     */
     /**
      * Handle file uploads.
      *
@@ -64,7 +72,6 @@ public class FileController {
      * @throws IOException
      */
     @RequestMapping(value = "/doUpload", method = RequestMethod.POST)
-    @Secured("ROLE_ADMIN")
         public String upload(@RequestParam("myFile") MultipartFile myFile, Model model) throws IOException {
 
             String fileName = "";
@@ -77,8 +84,8 @@ public class FileController {
                 || myFile.getContentType().equals("text/csv"))
             ) {
                 try {// if xml then save it to xml folder
-                	if(myFile.getContentType().equals("text/xml")){
-                		byte[] bytes = myFile.getBytes();
+                    if(myFile.getContentType().equals("text/xml")){
+                        byte[] bytes = myFile.getBytes();
                         String username= SecurityContextHolder.getContext().getAuthentication().getName();
                         path=context.getRealPath("/resources/xml/")+File.separator+username;
                         fileName = myFile.getOriginalFilename();
@@ -89,10 +96,10 @@ public class FileController {
                         bos.write(bytes);
                         bos.close();    
                         model.addAttribute("message", "Your xml is uploaded to:"+path);
-                        return "redirect:/v2_upload";
-                		
-                	}else{//save to resources folder
-                		byte[] bytes = myFile.getBytes();
+                        return "redirect:/"+VIEW_NAME;
+                        
+                    }else{//save to resources folder
+                        byte[] bytes = myFile.getBytes();
                         fileName = myFile.getOriginalFilename();
                         path=context.getRealPath("/resources")+File.separator+fileName;
                         bos = new BufferedOutputStream(new FileOutputStream(path));
@@ -101,20 +108,20 @@ public class FileController {
                         fileName=fileName.substring(0,fileName.length()-4);
                         
                         return "redirect:/cleanCSV/"+fileName;
-                	}
+                    }
                     
-                	 
+                     
                      
                 } catch (IOException e) {
                     // e.printStackTrace();
                     model.addAttribute("message", "Something is wrong, controller can not write file to server's file system !");
-                    return "v2_upload";
+                    return VIEW_NAME;
 
                 }
 
             } else { // otherwise reject the file.
                 model.addAttribute("message", "Your file type is " + myFile.getContentType() + ". Only  XML, or CSV files allowed.");
-                return "v2_upload";
+                return VIEW_NAME;
             }
             
        
@@ -131,7 +138,7 @@ public class FileController {
     @RequestMapping(value = "/getXmlOnServer/{fileName}", method = RequestMethod.GET)
     public String getXmlOnServer(@PathVariable("fileName") String fileName,Model model) {
 
-    	try {
+        try {
             BufferedInputStream bis = new BufferedInputStream(
                     new FileInputStream(context.getRealPath("/resources/xml/"+fileName+".xml"))
             );
@@ -178,7 +185,6 @@ public class FileController {
 
             return "upload";
         }
-
 
     static {
         System.out.println(" -- Initializing FileController.");

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!--Specifies that mapping class to be used for mapped columns. Hoan, more
+  details?-->
 <hibernate-configuration>
- <session-factory>
-  
-  <mapping class="edu.csus.csc191.models.Mastercsv"/>
- </session-factory>
+    <session-factory>
+        <mapping class="edu.csus.csc191.models.Mastercsv"/>
+    </session-factory>
 </hibernate-configuration>

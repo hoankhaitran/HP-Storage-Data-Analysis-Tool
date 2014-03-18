@@ -1,89 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+This file contains some basica configurations that tell Spring what to load when starting our server.
+-->
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing 
-		infrastructure -->
+    <!-- DispatcherServlet Context: defines this servlet's request-processing
+      infrastructure -->
 
-	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+    <!-- Enables the Spring MVC annotation way of making your server. This
+      basically means that in stead of creating classes for configuration, you
+      can use annotations. For example, @Controller is placed in from of classes
+      that are controllers, and those controller classes and their methods can
+      use the @RequestMapping() annotation so specify which URL is handled by
+      the controller or URL. Other annotations in clude @ModelAttributes for
+      specifying that a method sets the attributes for the model associated with
+      that controller. The @Secured() annotation allows for annotating methods
+      that also use @RequestMapping so that the associated URL is accessible
+      only after logging in. etc...
+    -->
+    <annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
-		up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving
+      up static resources in the ${webappRoot}/resources directory. Any file
+      places in the specified folder is downloadable, so don't place code there
+      unless you want the world to see it.
+    -->
+    <resources mapping="/resources/**" location="/resources/" />
 
+    <!--NOTE: A bean specifies are controller ato be instantiated, and
+      optionally a method to be automatically invoked when the server first
+      starts.-->
 
-	<beans:bean id="templateResolver"
-		class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".html" />
-		<beans:property name="templateMode" value="HTML5" />
-		<!-- Template cache is set to false (default is true). -->
-		<beans:property name="cacheable" value="false" />
-	</beans:bean>
+    <!--Set the template resolver that is in charge for determining where a
+      template is located when requested. For example, when ThymeLeaf is given a
+      template name, the template resolver tell ThymeLeaf where to find the
+      file. Telling ThymeLeaf that the template name is "reports" causes
+      ThymeLeaf to use this resolver to find the location of "reports.html". In
+      our case, templates are in /src/main/webapp/WEB-INF/views.-->
+    <beans:bean id="templateResolver"
+            class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <beans:property name="prefix" value="/WEB-INF/views/" />
+        <beans:property name="suffix" value=".html" />
+        <beans:property name="templateMode" value="HTML5" />
+        <!-- Template cache is set to false (default is true). -->
+        <beans:property name="cacheable" value="false" />
+    </beans:bean>
 
-	<beans:bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
-		<beans:property name="templateResolver" ref="templateResolver" />
-	</beans:bean>
-	<beans:bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<beans:property name="basename" value="Messages" />
-	</beans:bean>
-	<beans:bean
-		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <!--Set ThymeLeaf as the template engine.-->
+    <beans:bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
+        <beans:property name="templateResolver" ref="templateResolver" />
+    </beans:bean>
 
-		<beans:property name="viewResolvers">
-			<beans:list>
-				<!-- Used here for 'xml' and 'atom' views -->
-				<beans:bean
-					class="org.springframework.web.servlet.view.BeanNameViewResolver">
-					<beans:property name="order" value="1" />
-				</beans:bean>
-				<!-- Used for Thymeleaf views -->
-				<beans:bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
-					<beans:property name="templateEngine" ref="templateEngine" />
-					<beans:property name="order" value="2" />
-				</beans:bean>
-			</beans:list>
-		</beans:property>
-	</beans:bean>
+    <beans:bean id="messageSource"
+            class="org.springframework.context.support.ResourceBundleMessageSource">
+        <beans:property name="basename" value="Messages" />
+    </beans:bean>
 
-	<beans:bean
-		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"></beans:bean>
+    <beans:bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <beans:property name="viewResolvers">
+            <beans:list>
+                <!-- Used here for 'xml' and 'atom' views -->
+                <beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+                    <beans:property name="order" value="1" />
+                </beans:bean>
+                <!-- Used for Thymeleaf views -->
+                <beans:bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+                    <beans:property name="templateEngine" ref="templateEngine" />
+                    <beans:property name="order" value="2" />
+                </beans:bean>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
 
-	<beans:bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="1000000000" />
-	</beans:bean>
-	
-	
-<beans:bean id="initMap" class="edu.csus.csc191.common.Utilities" init-method="initColumnsHashMap">
-   
- </beans:bean>
-   <!--<beans:bean id="commonModelAttributes" class="edu.csus.csc191.common.CommonModelAttributes" init-method="setCommonAttributes" auto-wired="byName">-->
-        <!--</beans:bean>-->
+    <beans:bean
+            class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"></beans:bean>
 
-        <!--This registers an interceptor (i.e. filter) that modifies any
-          controller's view and model before Spring continues on doing what it
-          does. Basically, if takes control of the model and view that a
-          controller method returns and lets you process stuff before Spring
-          continues doing what it normally does.-->
-        <interceptors>
-            <!--<interceptor>-->
-                <!--<mapping path="/joe/**" />-->
-                <beans:bean class="edu.csus.csc191.common.CustomLayoutInterceptor" /> 
-            <!--</interceptor>-->
-       </interceptors>
+    <beans:bean id="multipartResolver"
+            class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxUploadSize" value="1000000000" />
+    </beans:bean>
 
+    <!--Initiate the column hash map o our app can use it. Basically, call the
+      initColumnsHashMap method of the Utilities class.-->
+    <beans:bean id="initMap" class="edu.csus.csc191.common.Utilities" init-method="initColumnsHashMap">
+    </beans:bean>
 
-	<context:annotation-config />
+    <!--Example: load the instantiate the CommonModelAttributes class (class=),
+      then call the setCommonAttributes method (init-method=), and set the
+      commonModelAttributes property of each controller to be a reference to
+      this object (auto-wired=).
 
-	<context:component-scan base-package="edu.csus.csc191" />
+        <beans:bean id="commonModelAttributes" class="edu.csus.csc191.common.CommonModelAttributes" init-method="setCommonAttributes" auto-wired="byName">
+        </beans:bean>
+    -->
 
+    <!--This registers an interceptor (i.e. filter) that modifies any
+      controller's view and model before Spring continues on doing what it does.
+      Basically, if takes control of the model and view that a controller method
+      returns and lets you process stuff before Spring continues doing what it
+      normally does. The interceptor's postHandle() method is called right after
+      a controller's method has returned and can do anything with the
+      controller's things (e.g. the model, the return value, etc).-->
+    <interceptors>
+        <!--<interceptor>-->
+        <!--<mapping path="/joe/**" />-->
+        <beans:bean class="edu.csus.csc191.common.CustomLayoutInterceptor" />
+        <!--</interceptor>-->
+    </interceptors>
 
+    <!--Allows configuration by annotation too.-->
+    <context:annotation-config />
 
+    <!--This tell SPring where to scan for our components that shall be
+      automatically instantiated (e.g. controllers, models, etc).-->
+    <context:component-scan base-package="edu.csus.csc191" />
 </beans:beans>

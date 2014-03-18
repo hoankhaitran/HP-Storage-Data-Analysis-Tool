@@ -28,13 +28,13 @@ import edu.csus.csc191.common.Utilities;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+@RequestMapping(value = "/")
+@Secured("ROLE_ADMIN")
+public class HomeController extends AppController {
 
-    private static final Logger logger = LoggerFactory
-        .getLogger(HomeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    @Autowired
-    private ServletContext context;
+    @Autowired private ServletContext context;
 
     /**
      * Handles the home page.
@@ -43,7 +43,7 @@ public class HomeController {
      * @param model The model associated with the home page view.
      * @return Returns the name of the view that should generate the response content.
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
         public String home(Locale locale, Model model) {
             logger.info("Welcome home! The client locale is {}.", locale);
             Date date = new Date();
@@ -64,15 +64,13 @@ public class HomeController {
      * @param model The model associated with the report view.
      * @return Returns the name of the view that should generate the response content.
      */
-    @RequestMapping(value = "/showMetricReport", method = RequestMethod.GET)
+    @RequestMapping(value = "/viewtabs", method = RequestMethod.GET)
         public String showMetricReport(Model model) {
 
             model.addAttribute("message", "Metric Report");
             
 
-            return "report";
+            return "report-tabs";
         }
 
-   
-   
 }

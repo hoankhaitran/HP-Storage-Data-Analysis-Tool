@@ -1,5 +1,5 @@
 /*
- * Developed by Hoan Tran. 
+ * Developed by Hoan Tran.
  */
 package edu.csus.csc191.common;
 
@@ -39,6 +39,7 @@ import edu.csus.csc191.models.DynamicCsv;
 public class Utilities {
     private static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
     public static HashMap<String, String> columnMap = new HashMap<String,String>() ;
+    private static Object[][] results ;
     @Autowired
     private ServletContext context;
 
@@ -70,7 +71,6 @@ public class Utilities {
         results[1]= last;// second element represents the last millisecond of the month
         return results;
     }
-    
 
     /**
      * Given a valid table name in DB this method returns a list of all column names
@@ -78,7 +78,6 @@ public class Utilities {
      * @param tableName
      * @return A List<String> of the column names in tableName.
      */
-   
     public static List<String> getColumnNamesFromTable(String tableName){
         Session session = sessionFactory.openSession();
 
@@ -117,7 +116,8 @@ public class Utilities {
         return newlist;
     }
 
-    public  void initColumnsHashMap(){
+   //this method is called during Spring initialization
+    public void initColumnsHashMap(){
         XStream xs = new XStream();
         InputStream is = null;
         String path =context.getRealPath("/resources/xml/table.xml");
@@ -144,8 +144,7 @@ public class Utilities {
 
         Document doc = null;
         try {
-            doc = builder
-                    .parse(path);
+            doc = builder.parse(path);
         } catch (SAXException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -162,7 +161,7 @@ public class Utilities {
 
         }
         mappedCols.remove(0);// remove root attribute
-        Object[][] results = new Object[2][mappedCols.size()];
+        results = new Object[2][mappedCols.size()];
         results[0] = cols.toArray();
         results[1] = mappedCols.toArray();
 
@@ -182,56 +181,69 @@ public class Utilities {
      * containing CSV colun names, and the second element is a (String)Object
      * array containing mapped column names.
      */
-    public static Object[][] getMappedColumns(ServletContext context, String tableName, String tableXml) {
-        List<String> cols = Utilities.getColumnNamesFromTable(tableName);
-        List<String> mappedCols = new ArrayList<String>();
-        Object[][] results;
-
-        XStream xs = new XStream();
-        InputStream is = null;
-        try {
-            is = new FileInputStream(context.getRealPath(tableXml));
-
-            DynamicCsv dcsv = (DynamicCsv) xs.fromXML(is);
-            // xs.toXML(new DynamicCsv(), os);
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = null;
-            builder = factory.newDocumentBuilder();
-
-            Document doc = null;
-            doc = builder.parse(context.getRealPath(tableXml));
-
-            NodeList list = doc.getElementsByTagName("*");
-            for (int i = 0; i < list.getLength(); i++) {
-                // Get element
-                Element element = (Element) list.item(i);
-                mappedCols.add(element.getNodeName());
-
-            }
-            mappedCols.remove(0);// remove root attribute
-            results = new Object[2][mappedCols.size()];
-            results[0] = cols.toArray();
-            results[1] = mappedCols.toArray();
-            return results;
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SAXException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return null;
+    public static Object[][] getMappedColumns() {
+    return results;
     }
+    public static String[] returnDate(int yearmonth){
+        String[] results = new String[2];
 
-    static {
-        System.out.println(" -- Initializing Utilities.");
+        Calendar dateCal = Calendar.getInstance();
+        int month = yearmonth % 100;
+        int year = yearmonth / 100;
+        dateCal.set(Calendar.DAY_OF_MONTH, 1);
+        dateCal.set(Calendar.MONTH, month);
+        dateCal.set(Calendar.YEAR, year);
+        dateCal.set(Calendar.HOUR_OF_DAY, 0);
+        dateCal.set(Calendar.MINUTE, 0);
+        dateCal.set(Calendar.SECOND, 0);
+        dateCal.set(Calendar.MILLISECOND, 0);
+        
+        results[0]= String.format("%04d-%02d-%02d", dateCal.get(Calendar.YEAR), dateCal.get(Calendar.MONTH), dateCal.get(Calendar.DAY_OF_MONTH));// first element represents the first millisecond of the month
+       
+        dateCal.add(Calendar.MONTH, 1);
+        dateCal.add(Calendar.MILLISECOND, -1);
+
+        results[1]= String.format("%04d-%02d-%02d", dateCal.get(Calendar.YEAR), dateCal.get(Calendar.MONTH), dateCal.get(Calendar.DAY_OF_MONTH));// first element represents the first millisecond of the month
+       
+        return results;
+    }
+    public static String toHibernateFormat(String item){ //converts column name format from w_column to wColumn
+    	WordUtils wutil = new WordUtils();
+        int index;
+        while ((index = item.indexOf('_')) != -1) {
+            item = item.replace("_", " ");
+            item = WordUtils.capitalizeFully(item, ' ');
+            item = item.replace(" ", "");
+
+            // System.out.print(item);
+        }
+        char[] temp = item.toCharArray();
+        temp[0] = Character.toLowerCase(temp[0]);
+        return new String(temp);
+    }
+    
+	public static String addSpaceToString(String input){ //ThisIsFun to This Is Fun
+		String result="";
+    	for(int i = 0; i < input.length(); i++)
+    	{
+    	  char upperCase = input.charAt(i);
+    	  if(Character.isUpperCase(upperCase))
+    	  {
+    	     String nextWord = " "+upperCase;
+
+    	     for(int j = i+1; j < input.length() && (Character.isLowerCase(input.charAt(j))|| Character.isDigit(input.charAt(j))); j++)
+    	     {
+    	       
+    	       nextWord += input.charAt(j);
+    	       
+    	       
+    	       i++;
+    	     }
+    	     result+=nextWord;
+    	     
+    	  }
+    	}
+    	System.out.println(result);
+        return result;
     }
 }

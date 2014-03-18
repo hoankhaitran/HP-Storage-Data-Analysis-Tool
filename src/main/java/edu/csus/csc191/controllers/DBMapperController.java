@@ -23,7 +23,7 @@ import edu.csus.csc191.common.Utilities;
 import edu.csus.csc191.models.DynamicCsv;
 
 @Controller
-public class DBMapperController {
+public class DBMapperController extends AppController {
     @Autowired
     private ServletContext context;
 
@@ -40,7 +40,7 @@ public class DBMapperController {
         @ResponseBody
         public Object[][] getMappedColumns() {
 
-            return Utilities.getMappedColumns(this.context, "mastercsv", "/resources/xml/table.xml");
+            return Utilities.getMappedColumns();
             
         }
     @RequestMapping(value = "/writeObjectToXml", method = RequestMethod.GET)

@@ -1,22 +1,24 @@
-<div th:fragment="guts">
-	<!--REQUIRED-->
+<div th:fragment="styles"> <!--REQUIRED-->
+    <style>
+    </style>
+</div> <!--REQUIRED-->
 
-	<p class="lead">Choose files to upload and process.</p>
+<div th:fragment="guts"> <!--REQUIRED-->
+
+	<p class="lead">Choose files to upload and process. OH YEAH.</p>
 	
 	<div id="fileUploadDiv">
-		<form action="home.html" th:action="@{/doUpload}" method="post"
-			enctype="multipart/form-data">
-			<input type="file" name="myFile" /> <input type="submit"
-				value="Upload" />
+		<form id="file_upload_form" action="home.html" th:action="@{/upload/doUpload}" method="post" enctype="multipart/form-data">
+			<input type="file" name="myFile" /> <input class="hp-dsat-submit" type="submit" value="Upload" />
 		</form>
 
 	</div>
 	<h2>Progress:</h2>
-	<div class="progress">
+	<div id="hp-dsat-progress" class="progress">
 
-		<div class="progress-bar" role="progressbar" aria-valuenow="60"
-			aria-valuemin="0" aria-valuema="100" style="width: 60%">
-			<span class="sr-only">60% Percent</span>
+		<div class="progress-bar" role="progressbar" aria-valuenow="0"
+			aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+			<span class="sr-only">0% Percent</span>
 		</div>
 	</div>
 	<h2>Details:</h2>
@@ -24,5 +26,80 @@
 	<div id="MessageDiv" th:include="message::#body"></div>
 </pre>
 
-</div>
-<!--REQUIRED-->
+</div> <!--REQUIRED-->
+
+<div th:fragment="scripts"> <!--REQUIRED-->
+    <script th:inline="javascript">
+
+        function show_upload_progress(progressPercent) {
+            $("#hp-dsat-progress .progress-bar").attr("aria-valuenow", progressPercent)
+                .css({"width":""+progressPercent+"%"})
+                .find(".sr-only")
+                .text(""+progressPercent+"% complete.");
+        }
+
+        function upload() {
+            console.log(" -- upload()... ");
+            var uploadRequest = new XMLHttpRequest,
+                uploadForm = document.getElementById('file_upload_form');
+
+            /*Execute For each update of the progress of the Ajax transfer.*/
+            function transferProgress(progressEvent) {
+                var percentComplete = 0,
+                    percentCompleteRounded = 0,
+                    outputPercentValue = -1,
+                    progressCounter = 0;
+
+                if (progressEvent.lengthComputable) {
+                    // if we know the size of the transfer content, we can compute the progress
+                    percentComplete = progressEvent.loaded / progressEvent.total * 100; // e.g. 56.567889
+                    percentCompleteRounded = percentComplete - percentComplete % 1; // e.g. 56
+
+                    if (percentCompleteRounded > outputPercentValue) {
+                        outputPercentValue = percentCompleteRounded;
+                        show_upload_progress(outputPercentValue);
+                    }
+                }
+                else {
+                    // Make an animation here if we don't know the progress.
+                    ++progressCounter;
+                }
+            }
+
+            /*Execute when the transfer is complete.*/
+            function transferComplete() {
+            	var base = /*[[${contextPath}]]*/ "";
+                console.log(" -- Base URL: "+base);
+                $("#message").html("Importing to database....");
+                window.location.replace(base+"/importCsv");
+            }
+
+            /*Execute when the transfer fails.*/
+            function transferFailed() {
+            }
+
+            /*Execute when the transfer is canceled.*/
+            function transferCanceled() {
+            }
+
+            uploadRequest.upload.addEventListener('progress', transferProgress, false);
+            //uploadRequest.upload.addEventListener('load', transferComplete, false); // transfer complete, but before a response from the server has been received.
+            uploadRequest.addEventListener('load', transferComplete, false); // ajax complete, response from the server has been received and all has been processed.
+            uploadRequest.upload.addEventListener('error', transferFailed, false);
+            uploadRequest.upload.addEventListener('abort', transferCanceled, false);
+
+            var formAction = $(uploadForm).attr("action");
+            uploadRequest.open('POST', formAction, true);
+            uploadRequest.send(new FormData(uploadForm));
+        }
+
+        $(document).ready(function() {
+            $("#file_upload_form input.hp-dsat-submit").on('click', function(event) {
+                upload();
+                console.log("boom!");
+                event.preventDefault();
+            });
+        });
+
+    </script>
+</div> <!--REQUIRED-->

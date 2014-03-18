@@ -41,7 +41,7 @@ import edu.csus.csc191.models.Mastercsv;
 import au.com.bytecode.opencsv.CSVReader;
 
 @Controller
-public class CsvImportController {
+public class CsvImportController extends AppController {
 	@Autowired
 	ServletContext context;
 	@Autowired
@@ -69,9 +69,9 @@ public class CsvImportController {
 			// c=temp.getDataSource().getConnection();
 			CopyManager copymanager = new CopyManager((BaseConnection) c);
 			Statement stmt = c.createStatement();
+			String filePath = context.getRealPath("/resources/dataset-withduplicates.csv");
 			BufferedInputStream bis = new BufferedInputStream(
-					new FileInputStream(
-							context.getRealPath("/resources/dataset-withduplicates.csv")));
+					new FileInputStream(filePath));//These duplicates will later be cleaned within the database
 			ResultSet rs = stmt.executeQuery(" select deletetables()");
 			rows = copymanager
 					.copyIn("COPY tempmastercsv FROM STDIN WITH DELIMITER ',' CSV HEADER",
@@ -82,9 +82,15 @@ public class CsvImportController {
 			rs = stmt.executeQuery(" select filterduplicates()");
 
 			rs = stmt.executeQuery(" select populateclientstable()");
+			
+			
 			rs.close();
 			stmt.close();
 			c.close();
+			bis.close();
+			//delete the duplicate csv file
+			File file = new File(filePath);
+			System.out.println(file.delete());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,7 +110,7 @@ public class CsvImportController {
 
 	public int exportMasterCsvTableToCsvFile(String fileName) {
 		Session session = sessionFactory.openSession();
-		String queryString = "select * from Mastercsv ";
+		String queryString = "select * from Mastercsv order by "+dcsv.getUUID();
 		Query query = session.createSQLQuery(queryString);
 		List results = query.list();
 		StringBuilder line = new StringBuilder();
@@ -159,7 +165,7 @@ public class CsvImportController {
 							+ fileName + ".csv"));
 
 			String[] nextLine;
-			String regex = "\\w{8}[-]\\w{4}[-]\\w{4}[-]\\w{4}[-]\\w{12}";
+			String regex = "(\\w{8}[-]\\w{4}[-]\\w{4}[-]\\w{4}[-]\\w{12}[,]*[\\s]*)+";
 			// String dateRegex =
 			// "^([1-9]|0[1-9]|1[0-2])[- / .]([1-9]|0[1-9]|1[0-9]|2[0-9]|3[0-1])[- / .](1[9][0-9][0-9]|2[0][0-9][0-9])[\\s]([1-9]|1[0-9]|2[0-3])[:]([0-5]?[0-9])$";
 			StringBuilder line = new StringBuilder();

@@ -47,22 +47,6 @@ CREATE FUNCTION deletetables() RETURNS integer
 ALTER FUNCTION public.deletetables() OWNER TO postgres;
 
 --
--- Name: exporttocsv(); Type: FUNCTION; Schema: public; Owner: postgres
---
-
-CREATE FUNCTION exporttocsv() RETURNS integer
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-    COPY mastercsv TO 'c:\master.csv' DELIMITER ',' CSV HEADER;
-    RETURN 1;
-    END;
-    $$;
-
-
-ALTER FUNCTION public.exporttocsv() OWNER TO postgres;
-
---
 -- Name: filterduplicates(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -71,10 +55,16 @@ CREATE FUNCTION filterduplicates() RETURNS integer
     AS $$
     BEGIN
     
-    
+        
+    Insert INTO mastercsv select distinct * FROM tempmastercsv;--remove any completely indentical records then copy it to mastercsv table   
+    delete from mastercsv where (b_column, c_column) not in (SELECT b_column,max(c_column) FROM   mastercsv group by b_column,Extract(month from c_column));--only keep records that are last updated in a particular month
+    Create table temp as SELECT distinct on(b_column,c_column) * FROM   mastercsv  order by b_column ;-- remove duplicate records that are updated on the same date. Results are saved to a temp table then later copy to mastercsv
+    delete from mastercsv; --reset mastercsv table
     ALTER SEQUENCE mastercsv_id_seq1 RESTART WITH 1;
-    Insert INTO mastercsv select distinct * FROM tempmastercsv;   
-    delete from mastercsv where (b_column, c_column) not in (select b_column, max(c_column) from mastercsv group by b_column);
+    Insert INTO mastercsv select * FROM temp; 
+    Drop table if exists temp  ; 
+    
+    
      
     
     
@@ -504,7 +494,7 @@ ALTER TABLE public.authorities OWNER TO postgres;
 --
 
 CREATE TABLE clients (
-    uuid character varying(100) NOT NULL
+    uuid character varying(1000) NOT NULL
 );
 
 
@@ -769,7 +759,7 @@ ALTER TABLE public.hibernate_sequence OWNER TO postgres;
 
 CREATE TABLE mastercsv (
     a_column integer,
-    b_column character varying(100) DEFAULT NULL::character varying,
+    b_column character varying(1000) DEFAULT NULL::character varying,
     c_column date,
     d_column date,
     e_column character varying(100) DEFAULT NULL::character varying,
@@ -1003,27 +993,6 @@ CREATE TABLE mastercsv (
 ALTER TABLE public.mastercsv OWNER TO postgres;
 
 --
--- Name: mastercsv_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE mastercsv_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.mastercsv_id_seq OWNER TO postgres;
-
---
--- Name: mastercsv_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE mastercsv_id_seq OWNED BY donotuse.id;
-
-
---
 -- Name: mastercsv_id_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1050,7 +1019,7 @@ ALTER SEQUENCE mastercsv_id_seq1 OWNED BY mastercsv.id;
 
 CREATE TABLE tempmastercsv (
     a_column integer,
-    b_column character varying(100),
+    b_column character varying(1000),
     c_column date,
     d_column date,
     e_column character varying(100),
@@ -1294,13 +1263,6 @@ CREATE TABLE users (
 
 
 ALTER TABLE public.users OWNER TO postgres;
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY donotuse ALTER COLUMN id SET DEFAULT nextval('mastercsv_id_seq'::regclass);
-
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
@@ -9794,17 +9756,10 @@ COPY mastercsv (a_column, b_column, c_column, d_column, e_column, f_column, g_co
 
 
 --
--- Name: mastercsv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('mastercsv_id_seq', 8089, true);
-
-
---
 -- Name: mastercsv_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('mastercsv_id_seq1', 5, true);
+SELECT pg_catalog.setval('mastercsv_id_seq1', 1, false);
 
 
 --

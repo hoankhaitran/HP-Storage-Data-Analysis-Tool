@@ -5,6 +5,7 @@ public class NewCustomerReport extends MasterReport {
     private int AllCustomer;
     private int StorageCustomer;
     private int ServerCustomer;
+    private int ServerAndStorageCustomer;
     public int getAllCustomer() {
         return AllCustomer;
     }
@@ -24,7 +25,12 @@ public class NewCustomerReport extends MasterReport {
         ServerCustomer = serverCustomer;
     }
 
-    static {
-        System.out.println(" -- Initializing NewCustomerReport.");
-    }
+    public int getServerAndStorageCustomer() {
+		return ServerAndStorageCustomer;
+	}
+	public void setServerAndStorageCustomer(int serverAndStorageCustomer) {
+		ServerAndStorageCustomer = serverAndStorageCustomer;
+	}
+
+	
 }

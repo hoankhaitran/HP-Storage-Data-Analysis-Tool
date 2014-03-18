@@ -1,15 +1,24 @@
 
+$('.datepick').each(function(){
+	$(this).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        dateFormat: 'yymm',
+        onClose: function() {
+            var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
 
-
-$(document).ready(function() {
-    $(".dsat-analyses-type-select > .dropdown-menu a").on("click", function(event) {
-        var _clickedItem = $(this);
-        var _dropdownButton = _clickedItem.parent().parent().parent();
-        //console.log(_clickedItem.html());
-
-        _dropdownButton.find(".dsat-analysis-type-text").text(_clickedItem.text());
-        event.preventDefault();
+            $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+        }
     });
+});   
 
-    //$(".dsat-select-column .multiselect").multiselect();
-});
+   
+   
+   
+   
+
+
+
+

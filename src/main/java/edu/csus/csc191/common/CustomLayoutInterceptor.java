@@ -21,11 +21,21 @@ public class CustomLayoutInterceptor extends HandlerInterceptorAdapter {
     private String defaultLayout = DEFAULT_LAYOUT;
     private String viewAttributeName = DEFAULT_VIEW_ATTRIBUTE_NAME;
 
+    /**
+     * Setter for this.defaultLayout.
+     *
+     * @param defaultLayout The new value for this.defaultLayout
+     */
     public void setDefaultLayout(String defaultLayout) {
         Assert.hasLength(defaultLayout);
         this.defaultLayout = defaultLayout;
     }
 
+    /**
+     * Setter for this.viewAttributeName.
+     *
+     * @param viewAttributeName The new value for this.viewAttributeName
+     */
     public void setViewAttributeName(String viewAttributeName) {
         Assert.hasLength(defaultLayout);
         this.viewAttributeName = viewAttributeName;

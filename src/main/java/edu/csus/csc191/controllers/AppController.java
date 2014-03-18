@@ -1,9 +1,10 @@
-package edu.csus.csc191.common;
+package edu.csus.csc191.controllers;
 
 import java.util.Locale;
 
 import javax.servlet.ServletContext;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
  * Handles requests for the application home page.
  */
 @Controller
+@Secured("ROLE_ADMIN")
 public class AppController {
 
     @Autowired
